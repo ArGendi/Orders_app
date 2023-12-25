@@ -4,6 +4,7 @@ import 'package:notes/constants.dart';
 import 'package:notes/controllers/clients/clients_cubit.dart';
 import 'package:notes/controllers/clients/clients_state.dart';
 import 'package:notes/screens/add_note_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ClientsScreen extends StatefulWidget {
   const ClientsScreen({super.key});
@@ -28,7 +29,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
       appBar: AppBar(
         title: Row(
           children: [
-            const Text('الناس'),
+            Text(AppLocalizations.of(context)!.clients),
             const SizedBox(width: 15,),
             Expanded(
               child: Container(
@@ -46,7 +47,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     prefixIcon: Icon(Icons.search),
-                    hintText: 'البحث',
+                    hintText: AppLocalizations.of(context)!.search,
                   ),
                 ),
               ),
@@ -72,24 +73,25 @@ class _ClientsScreenState extends State<ClientsScreen> {
               child: ListView.separated(
                 itemBuilder: (context, i){
                   return Material(
-                    elevation: 3,
+                    //elevation: 3,
                     borderRadius: BorderRadius.circular(10),
-                    //color: Colors.grey[50],
+                    color: Colors.grey[900],
                     child: InkWell(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => AddNoteScreen(client: cubit.filteredClients[i],)));
                       },
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
                         child: Row(
                           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(Icons.person_3_rounded, color: Colors.grey[900],),
+                            Icon(Icons.person_3_rounded, color: Colors.white,),
                             const SizedBox(width: 10,),
                             Text(
                               cubit.filteredClients[i].name.toString(),
                               style: const TextStyle(
                                 fontSize: 17,
+                                color: Colors.white
                                 //fontWeight: FontWeight.bold
                               ),
                             ),
@@ -117,6 +119,17 @@ class _ClientsScreenState extends State<ClientsScreen> {
             );
           },
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: ((context) => const AddNoteScreen())));
+        },
+        label: Text(AppLocalizations.of(context)!.newOrder),
+        icon: const Icon(Icons.add),
+        //child: ,
+        backgroundColor: mainColor,
+        foregroundColor: Colors.white,
       ),
     );
   }

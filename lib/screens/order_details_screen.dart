@@ -8,6 +8,7 @@ import 'package:notes/models/client.dart';
 import 'package:notes/models/order.dart';
 import 'package:notes/screens/update_order_screen.dart';
 import 'package:notes/widgets/custom_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
   final int index;
@@ -102,7 +103,7 @@ class OrderDetailsScreen extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  'طول الدراع',
+                                 AppLocalizations.of(context)!.armTall,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
@@ -121,7 +122,7 @@ class OrderDetailsScreen extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  "طول الوسط",
+                                  AppLocalizations.of(context)!.waistTall,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
@@ -149,7 +150,7 @@ class OrderDetailsScreen extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  "طول الجيب",
+                                   AppLocalizations.of(context)!.jeepTall,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
@@ -168,19 +169,32 @@ class OrderDetailsScreen extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  "دوران الصدر",
+                                   AppLocalizations.of(context)!.chestRotation,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
                                   ),
                                 ),
-                                Text(
-                                  order.client!
-                                      .chestRound
-                                      .toString(),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      order.client!
+                                          .chestRound
+                                          .toString(),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Text(
+                                      "(${(int.parse(order.client!.chestRound!) / 4).toStringAsFixed(2)})",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.grey[600]
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -196,38 +210,62 @@ class OrderDetailsScreen extends StatelessWidget {
                             Column(
                               children: [
                                 Text(
-                                  "دوران الوسط",
+                                   AppLocalizations.of(context)!.waistRotation,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
                                   ),
                                 ),
-                                Text(
-                                  order.client!
-                                      .waistRound
-                                      .toString(),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      order.client!
+                                          .waistRound
+                                          .toString(),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Text(
+                                      "(${(int.parse(order.client!.waistRound!) / 4).toStringAsFixed(2)})",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.grey[600]
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                             Column(
                               children: [
                                 Text(
-                                  "دوران الاجناب",
+                                   AppLocalizations.of(context)!.sidesRotation,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
                                   ),
                                 ),
-                                Text(
-                                  order.client!
-                                      .sidesRound
-                                      .toString(),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      order.client!
+                                          .sidesRound
+                                          .toString(),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Text(
+                                      "(${(int.parse(order.client!.sidesRound!) / 4).toStringAsFixed(2)})",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.grey[600]
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -240,7 +278,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         Column(
                           children: [
                             Text(
-                              "طول الكتف",
+                              AppLocalizations.of(context)!.shouldersWidth,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -267,7 +305,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                 children: [
                                   Expanded(child: Divider(endIndent:  15, color: Colors.green[400]),),
                                   Text(
-                                    "تعليق",
+                                     AppLocalizations.of(context)!.additionalComment,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       // fontSize: 18,
@@ -320,7 +358,7 @@ class OrderDetailsScreen extends StatelessWidget {
               height: 15,
             ),
             CustomButton(
-              text: 'تم التسليم',
+              text: AppLocalizations.of(context)!.orderDelivered,
               onClick: () async{
                 await BlocProvider.of<OrderCubit>(context, listen: false).showDoneDialog(context, index);
               },

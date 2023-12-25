@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/constants.dart';
 import 'package:notes/controllers/history/history_cubit.dart';
 import 'package:notes/controllers/history/history_state.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -23,7 +24,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('الاوردرات السابقة'),
+        title: Text(AppLocalizations.of(context)!.previousOrders),
         backgroundColor: mainColor,
         foregroundColor: Colors.white,
       ),
@@ -55,7 +56,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               color: Colors.green[800],
                             ),
                           ),
-                          Icon(Icons.arrow_forward_rounded),
+                          const Icon(Icons.arrow_forward_rounded),
                           Text(
                             "${cubit.ordersDone[i].deadline!.day} / ${cubit.ordersDone[i].deadline!.month} / ${cubit.ordersDone[i].deadline!.year}",
                             style: TextStyle(

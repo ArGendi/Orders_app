@@ -4,24 +4,28 @@ import 'package:hive/hive.dart';
 import 'package:notes/constants.dart';
 import 'package:notes/controllers/clients/clients_state.dart';
 import 'package:notes/models/client.dart';
+import 'package:notes/services/firestore/clients_firestore.dart';
 
 class ClientsCubit extends Cubit<ClientsState>{
   List<Client> clients = [];
   List<Client> filteredClients = [];
+  ClientsFirestore clientsFirestore = ClientsFirestore();
 
   ClientsCubit() : super(InitClientsState());
 
   void getClientsFromDB() async{
-    Box box = Hive.box(clientsTable);
-    clients = box.keys.toList().map((key){
-        Map map = box.get(key);
-        Client client = Client.fromMap(map);
-        client.id = key;
-        return client;
-      }
-    ).toList();
-    filteredClients = clients;
-    emit(GetClientsDataState());
+    if(clients.isEmpty){
+      Box box = Hive.box(clientsTable);
+      clients = box.keys.toList().map((key){
+          Map map = box.get(key);
+          Client client = Client.fromMap(map);
+          client.id = key;
+          return client;
+        }
+      ).toList();
+      filteredClients = clients;
+      emit(GetClientsDataState());
+    }
   }
 
   void searchInClients(String value){
@@ -64,5 +68,30 @@ class ClientsCubit extends Cubit<ClientsState>{
         );
       },
     );
+  }
+
+  Future<void> replaceAllData() async{
+    emit(UploadingState());
+    await clientsFirestore.removeAll();
+    for(var client in clients){
+      await clientsFirestore.add(client);
+    }
+    print('Done uploading (check)');
+    emit(SuccessUploadState());
+  }
+
+  Future<void> getAllDataFromFB() async{
+    emit(DownloadingState());
+    List<Client>? clientsFromFB = await clientsFirestore.getAll();
+    print('clients from fb: $clientsFromFB');
+    if(clientsFromFB != null){
+      filteredClients = clients = clientsFromFB;
+      Box box = Hive.box(clientsTable);
+      for(int i=0; i<clients.length; i++){
+        int id = await box.add(clients[i].toMap());
+        clients[i].id = id;
+      }
+      emit(SuccessDownloadState());
+    }
   }
 }

@@ -1,5 +1,6 @@
 
 class Client{
+  String? docId;
   int? id;
   String? name;
   String? armTall;
@@ -14,6 +15,7 @@ class Client{
   Client.initialize(this.name, this.armTall, this.waistTall, this.jeepTall, this.chestRound,
    this.waistRound, this.sidesRound, this.shouldersTall);
   Client.fromMap(Map map){
+    docId = map['docId'];
     name = map['name'];
     armTall = map['armTall'];
     waistTall = map['waistTall'];
@@ -26,6 +28,7 @@ class Client{
 
   Map<String, dynamic> toMap(){
     return {
+      'docId': docId,
       'name': name,
       'armTall': armTall,
       'waistTall': waistTall,

@@ -14,7 +14,7 @@ class Order{
     client ??= Client();
   }
   Order.fromMap(Map map){
-    client = Client(id: map['clientId']);
+    client = Client.fromMap(map['client']);
     comment = map['comment'];
     deadline = DateTime.fromMillisecondsSinceEpoch(map['deadline']);
     createdAt = DateTime.fromMillisecondsSinceEpoch(map['createdAt']);
@@ -23,7 +23,7 @@ class Order{
 
   Map<String, dynamic> toMap(){
     return {
-      'clientId': client?.id,
+      'client': client?.toMap(),
       'comment': comment,
       'deadline': deadline?.millisecondsSinceEpoch,
       'createdAt': createdAt?.millisecondsSinceEpoch,

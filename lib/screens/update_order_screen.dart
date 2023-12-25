@@ -7,6 +7,7 @@ import 'package:notes/models/client.dart';
 import 'package:notes/models/order.dart';
 import 'package:notes/widgets/custom_button.dart';
 import 'package:notes/widgets/custom_texfield.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UpdateOrderScreen extends StatefulWidget {
   final int index;
@@ -30,7 +31,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text('تعديل',),
+        title: Text(AppLocalizations.of(context)!.editOrder),
         //centerTitle: true,
         backgroundColor: mainColor,
         foregroundColor: Colors.white,
@@ -90,14 +91,14 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                 ),
                 CustomTextFormField(
                   initial: BlocProvider.of<OrderCubit>(context).orders[widget.index].client!.name,
-                  text: 'الأسم',
+                  text: AppLocalizations.of(context)!.name,
                   onSaved: (value) {
                     BlocProvider.of<OrderCubit>(context).order.client!.name =
                         value!.trim();
                   },
                   onValidate: (value) {
                     return BlocProvider.of<OrderCubit>(context)
-                        .validation(value, "ادخل الأسم");
+                        .validation(value, AppLocalizations.of(context)!.enterName);
                   },
                 ),
                 const SizedBox(
@@ -108,7 +109,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                     Expanded(
                       child: CustomTextFormField(
                         initial: BlocProvider.of<OrderCubit>(context).orders[widget.index].client!.armTall,
-                        text: 'طول الكم',
+                        text: AppLocalizations.of(context)!.armTall,
                         keyboardType: TextInputType.number,
                         onSaved: (value) {
                           BlocProvider.of<OrderCubit>(context)
@@ -118,7 +119,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                         },
                         onValidate: (value) {
                           return BlocProvider.of<OrderCubit>(context)
-                              .validation(value, "ادخل الكم");
+                              .validation(value, AppLocalizations.of(context)!.enterArmTall);
                         },
                       ),
                     ),
@@ -128,7 +129,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                     Expanded(
                       child: CustomTextFormField(
                         initial: BlocProvider.of<OrderCubit>(context).orders[widget.index].client!.waistTall,
-                        text: 'طول الوسط',
+                        text: AppLocalizations.of(context)!.waistTall,
                         keyboardType: TextInputType.number,
                         onSaved: (value) {
                           BlocProvider.of<OrderCubit>(context)
@@ -138,7 +139,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                         },
                         onValidate: (value) {
                           return BlocProvider.of<OrderCubit>(context)
-                              .validation(value, "ادخل الوسط");
+                              .validation(value, AppLocalizations.of(context)!.enterWaistTall);
                         },
                       ),
                     ),
@@ -152,7 +153,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                     Expanded(
                       child: CustomTextFormField(
                         initial: BlocProvider.of<OrderCubit>(context).orders[widget.index].client!.jeepTall,
-                        text: 'طول الجيب',
+                        text: AppLocalizations.of(context)!.jeepTall,
                         keyboardType: TextInputType.number,
                         onSaved: (value) {
                           BlocProvider.of<OrderCubit>(context)
@@ -162,7 +163,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                         },
                         onValidate: (value) {
                           return BlocProvider.of<OrderCubit>(context)
-                              .validation(value, "ادخل الجيب");
+                              .validation(value, AppLocalizations.of(context)!.enterJeepTall);
                         },
                       ),
                     ),
@@ -172,7 +173,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                     Expanded(
                       child: CustomTextFormField(
                         initial: BlocProvider.of<OrderCubit>(context).orders[widget.index].client!.chestRound,
-                        text: 'دوران الصدر',
+                        text: AppLocalizations.of(context)!.chestRotation,
                         keyboardType: TextInputType.number,
                         onSaved: (value) {
                           BlocProvider.of<OrderCubit>(context)
@@ -182,7 +183,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                         },
                         onValidate: (value) {
                           return BlocProvider.of<OrderCubit>(context)
-                              .validation(value, "ادخل دوران الصدر");
+                              .validation(value, AppLocalizations.of(context)!.enterChestRotation);
                         },
                       ),
                     ),
@@ -196,7 +197,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                     Expanded(
                       child: CustomTextFormField(
                         initial: BlocProvider.of<OrderCubit>(context).orders[widget.index].client!.waistRound,
-                        text: 'دوران الوسط',
+                        text: AppLocalizations.of(context)!.waistRotation,
                         keyboardType: TextInputType.number,
                         onSaved: (value) {
                           BlocProvider.of<OrderCubit>(context)
@@ -206,7 +207,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                         },
                         onValidate: (value) {
                           return BlocProvider.of<OrderCubit>(context)
-                              .validation(value, "ادخل دوران الوسط");
+                              .validation(value, AppLocalizations.of(context)!.enterWaistRotation);
                         },
                       ),
                     ),
@@ -216,7 +217,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                     Expanded(
                       child: CustomTextFormField(
                         initial: BlocProvider.of<OrderCubit>(context).orders[widget.index].client!.sidesRound,
-                        text: 'دوران الاجناب',
+                        text: AppLocalizations.of(context)!.sidesRotation,
                         keyboardType: TextInputType.number,
                         onSaved: (value) {
                           BlocProvider.of<OrderCubit>(context)
@@ -226,7 +227,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                         },
                         onValidate: (value) {
                           return BlocProvider.of<OrderCubit>(context)
-                              .validation(value, "ادخل دوران الاجناب");
+                              .validation(value, AppLocalizations.of(context)!.enterSidesRotation);
                         },
                       ),
                     ),
@@ -237,7 +238,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                 ),
                 CustomTextFormField(
                   initial: BlocProvider.of<OrderCubit>(context).orders[widget.index].client!.shouldersTall,
-                  text: 'عرض الكتف',
+                  text: AppLocalizations.of(context)!.shouldersWidth,
                   keyboardType: TextInputType.number,
                   onSaved: (value) {
                     BlocProvider.of<OrderCubit>(context)
@@ -247,7 +248,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                   },
                   onValidate: (value) {
                     return BlocProvider.of<OrderCubit>(context)
-                        .validation(value, "ادخل عرض الكتف");
+                        .validation(value, AppLocalizations.of(context)!.enterShouldersWidth);
                   },
                 ),
                 const SizedBox(
@@ -271,7 +272,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                           builder: (context, state) {
                             return Text(
                               BlocProvider.of<OrderCubit>(context)
-                                  .getFilteredDeadline(), // تاريخ التسليم
+                                  .getFilteredDeadline(context), // تاريخ التسليم
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -289,7 +290,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                 ),
                 CustomTextFormField(
                   initial: BlocProvider.of<OrderCubit>(context).orders[widget.index].comment,
-                  text: 'تعليق زيادة',
+                  text: AppLocalizations.of(context)!.additionalComment,
                   onSaved: (value) {
                     BlocProvider.of<OrderCubit>(context).order.comment = value;
                   },
@@ -298,20 +299,20 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                   height: 20,
                 ),
                 CustomButton(
-                  text: "تعديل", 
+                  text: AppLocalizations.of(context)!.editOrder, 
                   onClick: () async {
                       bool valid = await BlocProvider.of<OrderCubit>(context)
-                          .onUpdateOrder(widget.index);
+                          .onUpdateOrder(context, widget.index);
                       if (valid) {
                         ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text('تم التعديل'),
+                            .showSnackBar( SnackBar(
+                          content: Text(AppLocalizations.of(context)!.editDone),
                           backgroundColor: Colors.green,
                         ));
                       } else {
                         ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text('حدث خطأ'),
+                            .showSnackBar( SnackBar(
+                          content: Text(AppLocalizations.of(context)!.problemExist),
                           backgroundColor: Colors.red,
                         ));
                       }

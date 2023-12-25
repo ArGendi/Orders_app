@@ -13,16 +13,22 @@ import 'package:notes/models/history.dart';
 import 'package:notes/models/order.dart';
 import 'package:notes/screens/home_screen.dart';
 import 'package:notes/screens/order_details_screen.dart';
+import 'package:notes/services/firestore/clients_firestore.dart';
+import 'package:notes/services/firestore/orders_firestore.dart';
 import 'package:notes/services/local_notification.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderCubit extends Cubit<OrderState>{
   List<Order> orders = [];
   Order order = Order();
+  final ClientsFirestore _clientsFirestore = ClientsFirestore();
+  final OrdersFirestore _ordersFirestore = OrdersFirestore();
+
   final formKey = GlobalKey<FormState>();
 
   OrderCubit() : super(InitOrderState());
 
-  Future<bool> onConfirmOrder(Client? existClient) async{
+  Future<OrderStatus> onConfirmOrder(BuildContext context, Client? existClient) async{
     bool valid = formKey.currentState!.validate();
     if(valid){
       formKey.currentState!.save();
@@ -40,50 +46,49 @@ class OrderCubit extends Cubit<OrderState>{
         }
         int orderId = await ordersBox.add(order.toMap());
         order.id = orderId;
+        emit(DoneUploadOrderState());
         orders.add(order.copyObject());
-        //order = Order(); // reset object
+        order = Order(); // reset object
         //formKey.currentState!.reset();
         _arrangeOrders();
         try{
-          DateTime dayBefore = order.deadline!.subtract(const Duration(days: 1));
+          DateTime dayBefore = orders.last.deadline!.subtract(const Duration(days: 1));
           LocalNotificationServices.scheduleNotification(
             id: 1,
-            title: 'التسليم بكرا',
-            body: 'متنسيش ${order.client!.name} هتستلم بكرا',
+            title:AppLocalizations.of(context)!.deliveryTomorrow,
+            body: AppLocalizations.of(context)!.dontForget + order.client!.name! + AppLocalizations.of(context)!.deliveryTomorrow,
             time: DateTime(dayBefore.year, dayBefore.month, dayBefore.day, 12)
           );
         }catch(e){
-          // if error happens
+          print('notification failed: $e');
         }
-        
         emit(SuccessOrderState());
-        return true;
+        return OrderStatus.success;
+        
       }
     }
-    return false;
+    return OrderStatus.fail;
   }
 
-  Future<bool> onUpdateOrder(int index) async{
+  Future<bool> onUpdateOrder(BuildContext context, int index) async{
     bool valid = formKey.currentState!.validate();
     if(valid){
       formKey.currentState!.save();
       order.createdAt = DateTime.now();
       orders[index] = order.copyObject();
       Box ordersBox = Hive.box(ordersTable);
-      Box clientsBox = Hive.box(clientsTable);
       ordersBox.put(order.id, order.toMap());
-      clientsBox.put(order.client!.id, order.client!.toMap());
-      //order = Order(); // reset
+      order = Order(); // reset
       try{
-        DateTime dayBefore = order.deadline!.subtract(const Duration(days: 1));
+        DateTime dayBefore = orders[index].deadline!.subtract(const Duration(days: 1));
         LocalNotificationServices.scheduleNotification(
           id: 1,
-          title: 'التسليم بكرا',
-          body: 'متنسيش ${order.client!.name} هتستلم بكرا',
+          title: AppLocalizations.of(context)!.deliveryTomorrow,
+          body: AppLocalizations.of(context)!.dontForget + order.client!.name! + AppLocalizations.of(context)!.deliveryTomorrow,
           time: DateTime(dayBefore.year, dayBefore.month, dayBefore.day, 12)
         );
       }catch(e){
-        // if error happens
+        print('notification failed: $e');
       }
       emit(SuccessOrderState());
       return true;
@@ -97,7 +102,7 @@ class OrderCubit extends Cubit<OrderState>{
       context: context,
       initialDate: now,
       firstDate: DateTime(now.year - 2),
-      lastDate: DateTime(now.year + 2),  
+      lastDate: DateTime(now.year + 2), 
     );
     if (selected != null) {
       order.deadline = selected;
@@ -125,40 +130,31 @@ class OrderCubit extends Cubit<OrderState>{
     return null;
   }
 
-  String getFilteredDeadline(){
+  String getFilteredDeadline(BuildContext context){
     if(order.deadline != null){
       return '${order.deadline!.day} - ${order.deadline!.month} - ${order.deadline!.year}';
     }
     else {
-      return 'تاريخ التسليم';
-    }
-  }
-
-  String getFilteredDeadlineByIndex(int i){
-    if(order.deadline != null){
-      return '${orders[i].deadline!.day} - ${orders[i].deadline!.month} - ${orders[i].deadline!.year}';
-    }
-    else {
-      return 'تاريخ التسليم';
+      return AppLocalizations.of(context)!.deadline;
     }
   }
 
   void getOrders() async{
-    emit(LoadingOrderState());
-    Box ordersBox = Hive.box(ordersTable);
-    Box clientsBox = Hive.box(clientsTable);
-    orders = ordersBox.keys.toList().map((key) {
-      Map map = ordersBox.get(key);
-      Order newOrder = Order.fromMap(map);
-      Map orderClientMap = clientsBox.get(newOrder.client!.id);
-      int id = newOrder.client!.id!;
-      newOrder.client = Client.fromMap(orderClientMap);
-      newOrder.client!.id = id;
-      newOrder.id = key;
-      return newOrder;
-    } ).toList();
-    _arrangeOrders();
-    emit(SuccessOrderState());
+    try{
+      emit(LoadingOrderState());
+      Box ordersBox = Hive.box(ordersTable);
+      orders = ordersBox.keys.toList().map((key) {
+        Map map = ordersBox.get(key);
+        Order newOrder = Order.fromMap(map);
+        newOrder.id = key;
+        return newOrder;
+      } ).toList();
+      _arrangeOrders();
+      emit(SuccessOrderState());
+    }
+    catch(e){
+      emit(FailOrderState());
+    }
   }
 
   void _arrangeOrders(){
@@ -175,9 +171,10 @@ class OrderCubit extends Cubit<OrderState>{
     }
     else if(restDays <= 4){
       return Colors.orange.shade400;
+      
     }
     else if(restDays <= 5){
-      return Color.fromARGB(255, 163, 161, 23);
+      return Colors.yellow.shade600;
     }
     else{
       return Colors.green.shade400;
@@ -190,11 +187,11 @@ class OrderCubit extends Cubit<OrderState>{
       //barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("تأكيد التسليم"),
-          content: const SingleChildScrollView(
+          title: Text(AppLocalizations.of(context)!.confirmDeadline),
+          content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('متأكدة من تسليم الاوردر ؟'),
+                Text(AppLocalizations.of(context)!.sureDeliveringOrderQuestion),
               ],
             ),
           ),
@@ -229,7 +226,7 @@ class OrderCubit extends Cubit<OrderState>{
     await historyBox.add(newOrderInHistory.toMap());
     await ordersBox.delete(orders[index].id);
     orders.removeAt(index);
-    emit(OrderDoneState());
+    emit(SuccessOrderState());
   }
 
   void imageBottomSheet(BuildContext context){
@@ -239,14 +236,14 @@ class OrderCubit extends Cubit<OrderState>{
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             ListTile(
               onTap: () async{
                 await _getImageFile(ImageSource.camera);
                 Navigator.pop(context);
               },
               leading: const Icon(Icons.camera_alt),
-              title: const Text('كاميرا'),
+              title: Text(AppLocalizations.of(context)!.camera),
             ),
             ListTile(
               onTap: () async{
@@ -254,7 +251,7 @@ class OrderCubit extends Cubit<OrderState>{
                 Navigator.pop(context);
               },
               leading: const Icon(Icons.photo),
-              title: const Text('الصور'),
+              title: Text(AppLocalizations.of(context)!.photos),
             ),
           ],
         );

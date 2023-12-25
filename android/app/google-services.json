@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "109222307798",
+    "project_id": "code-academy-eed0d",
+    "storage_bucket": "code-academy-eed0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109222307798:android:1dbe58cc67b1ed9ac42677",
+        "android_client_info": {
+          "package_name": "com.caoman.orga"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlwwnYF32j9RtIMEtpXLU4njY55ZHFwdE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
