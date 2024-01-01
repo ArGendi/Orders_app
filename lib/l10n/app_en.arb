@@ -44,7 +44,7 @@
     "oderDelivery": "Order delivery",
     "dontForget": "Don't forget",
     "deliveryTomorrow": "Deliver tomorrow",
-    "deadline": "Deadline",
+    "deadline": "Select order deadline",
     "confirmDeadline": "Confirm deadline",
     "sureDeliveringOrderQuestion": "Are you sure confirming order ?",
     "camera": "Camera",
@@ -53,6 +53,13 @@
     "editDone": "Edit confirmed",
     "orderDelivered": "Order Delivered",
     "phone": "Phone number",
-    "wrongPassword": "Wrong password !!",
-    "wrongPhoneNumber": "Worng phone number !!"
+    "wrongPassword": "Wrong password or sign up with new number",
+    "wrongPhoneNumber": "Worng phone number !!",
+    "uploadDone": "Uploaded successfuly",
+    "downloadDone": "Downloaded successfuly",
+    "deleteData": "Delete data",
+    "sureDeletedataQuestion": "Sure you want to delete ",
+    "makeSureThereIsNoOrders": "Make sure there is no orders for this client",
+    "gotIt": "Got it",
+    "internetConnectionProblem": "Connection lost"
 }

@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () async{
                 Navigator.pop(context);
                 BlocProvider.of<ClientsCubit>(context).getClientsFromDB();
-                BlocProvider.of<ClientsCubit>(context).replaceAllData();
+                BlocProvider.of<ClientsCubit>(context).uploadAllData();
               },
             ),
           ],
@@ -129,6 +129,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   if(state is UploadingState){
                     return Text(AppLocalizations.of(context)!.uploading);
                   }
+                  else if(state is SuccessUploadState){
+                    return Text(AppLocalizations.of(context)!.uploadDone);
+                  }
+                  else if(state is FailUploadState){
+                    return Text(AppLocalizations.of(context)!.internetConnectionProblem);
+                  }
                   else{
                     return Text(AppLocalizations.of(context)!.uploadData);
                   }
@@ -144,6 +150,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (context, state) {
                   if(state is DownloadingState){
                     return Text(AppLocalizations.of(context)!.downloading);
+                  }
+                  else if(state is SuccessDownloadState){
+                    return Text(AppLocalizations.of(context)!.downloadDone);
+                  }
+                  else if(state is FailDownloadState){
+                    return Text(AppLocalizations.of(context)!.internetConnectionProblem);
                   }
                   else{
                     return Text(AppLocalizations.of(context)!.downloadData);
@@ -192,7 +204,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black,
                 ),
               );
-            } else if (state is SuccessOrderState) {
+            } else if (state is FailOrderState) {
+               return Center(
+                child: Text(
+                  AppLocalizations.of(context)!.problemExist,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              );
+            } else {
               return Visibility(
                 visible: cubit.orders.isNotEmpty,
                 replacement: Center(
@@ -269,16 +291,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 10,
                     );
                   },
-                ),
-              );
-            } else {
-              return Center(
-                child: Text(
-                  AppLocalizations.of(context)!.problemExist,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
                 ),
               );
             }

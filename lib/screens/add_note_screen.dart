@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/constants.dart';
+import 'package:notes/controllers/language/app_language_cubit.dart';
 import 'package:notes/controllers/orders/orders_cubit.dart';
 import 'package:notes/controllers/orders/orders_state.dart';
 import 'package:notes/models/client.dart';
@@ -265,8 +268,12 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   width: double.infinity,
                   height: 45,
                   decoration: BoxDecoration(
-                    color: mainColor,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: Colors.grey.shade400,
+                      //width: 2,
+                    )
                   ),
                   child: InkWell(
                     onTap: () async {
@@ -274,16 +281,17 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                           .selectDeadlineDate(context);
                     },
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
+                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                      child: Align(
+                        alignment: BlocProvider.of<AppLanguageCubit>(context).lang == 'en' ? Alignment.centerLeft : Alignment.centerRight,
                         child: BlocBuilder<OrderCubit, OrderState>(
                           builder: (context, state) {
                             return Text(
                               BlocProvider.of<OrderCubit>(context)
                                   .getFilteredDeadline(context), // تاريخ التسليم
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                              style: TextStyle(
+                                color:  BlocProvider.of<OrderCubit>(context).order.deadline != null ? Colors.black : Colors.grey[600],
+                                //fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
                             );
@@ -325,6 +333,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                               content: Text(AppLocalizations.of(context)!.addedSuccessfuly),
                               backgroundColor: Colors.green,
                             ));
+                            Navigator.popUntil(context, (route) => route.isFirst);
                           } else {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(SnackBar(

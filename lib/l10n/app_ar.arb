@@ -44,7 +44,7 @@
     "oderDelivery": "التسليم بكرا",
     "dontForget": "متنساش",
     "deliveryTomorrow": "هتستلم بكرا",
-    "deadline": "تاريخ التسليم",
+    "deadline": "أختار تاريخ التسليم",
     "confirmDeadline": "تأكيد التسليم",
     "sureDeliveringOrderQuestion": "متأكدة من تسليم الاوردر ؟",
     "camera": "كاميرا",
@@ -53,7 +53,14 @@
     "editDone":"تم التعديل",
     "orderDelivered": "تم التسليم",
     "phone": "رقم الموبايل",
-    "wrongPassword": "الرقم السري غلط",
-    "wrongPhoneNumber": "دا مش منظر رقم دخل رقم التليفون صح"
+    "wrongPassword": " الرقم السري غلط او سجل برقم جديد",
+    "wrongPhoneNumber": "دا مش منظر رقم دخل رقم التليفون صح",
+    "uploadDone": "تم رفع العملاء",
+    "downloadDone": "تم تحميل بيانات العملاء",
+    "deleteData": "مسح البيانات",
+    "sureDeletedataQuestion": "متأكدة من مسح بيانات",
+    "makeSureThereIsNoOrders": "أتاكد ان مفيش اوردرات حاليا للشخص دا الاول",
+    "gotIt": "تمام",
+    "internetConnectionProblem": "النت ضعيف"
 
 }

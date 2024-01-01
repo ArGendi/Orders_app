@@ -65,9 +65,15 @@ class _ClientsScreenState extends State<ClientsScreen> {
             return Visibility(
               visible: cubit.clients.isNotEmpty,
               replacement: Center(
-                  child: Image.asset(
-                    'images/empty.png',
-                    width: 200,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        'images/empty.png',
+                        width: 200,
+                      ),
+                      Text('مفيش ناس ممكن تعمل اوردر'),
+                    ],
                   ),
                 ),
               child: ListView.separated(

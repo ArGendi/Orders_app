@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes/constants.dart';
@@ -309,6 +311,7 @@ class _AddNoteScreenState extends State<UpdateOrderScreen> {
                           content: Text(AppLocalizations.of(context)!.editDone),
                           backgroundColor: Colors.green,
                         ));
+                        Navigator.popUntil(context, (route) => false);
                       } else {
                         ScaffoldMessenger.of(context)
                             .showSnackBar( SnackBar(

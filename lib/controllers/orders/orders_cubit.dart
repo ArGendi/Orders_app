@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:notes/constants.dart';
+import 'package:notes/controllers/clients/clients_cubit.dart';
 import 'package:notes/controllers/orders/orders_state.dart';
 import 'package:notes/models/client.dart';
 import 'package:notes/local/database.dart';
@@ -43,6 +46,7 @@ class OrderCubit extends Cubit<OrderState>{
         else{
           order.client!.id = existClient.id;
           await clientsBox.put(existClient.id, order.client!.toMap());
+          //BlocProvider.of<ClientsCubit>(context).;
         }
         int orderId = await ordersBox.add(order.toMap());
         order.id = orderId;
@@ -101,25 +105,12 @@ class OrderCubit extends Cubit<OrderState>{
     DateTime? selected = await showDatePicker(
       context: context,
       initialDate: now,
-      firstDate: DateTime(now.year - 2),
+      firstDate: now,
       lastDate: DateTime(now.year + 2), 
+      confirmText: AppLocalizations.of(context)!.confirm,
     );
     if (selected != null) {
       order.deadline = selected;
-      emit(AddDeadlineOrderState());
-    }
-  }
-
-  void selectDeadlineDateByIndex(BuildContext context, int i) async{
-    DateTime now = DateTime.now();
-    DateTime? selected = await showDatePicker(
-      context: context,
-      initialDate: now,
-      firstDate: DateTime(now.year - 2),
-      lastDate: DateTime(now.year + 2),  
-    );
-    if (selected != null) {
-      orders[i].deadline = selected;
       emit(AddDeadlineOrderState());
     }
   }
@@ -198,7 +189,7 @@ class OrderCubit extends Cubit<OrderState>{
           actions: <Widget>[
             TextButton(
               child: Text(
-                'تأكيد',
+                AppLocalizations.of(context)!.confirm,
                 style: TextStyle(
                   color: Colors.green[900]
                 ),

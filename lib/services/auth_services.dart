@@ -45,6 +45,10 @@ class AuthServices {
     }
   }
 
+  Future<void> forgetPassword() async{
+    
+  }
+
   Future<void> loginWithPhone(String mobile) async{
     print(mobile);
     await FirebaseAuth.instance.verifyPhoneNumber(

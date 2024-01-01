@@ -76,8 +76,8 @@ class _MyAppState extends State<MyApp> {
             theme: ThemeData(
               useMaterial3: true,
             ),
-            home: LanguageScreen(),// Cache.getLanguage() != null  && Cache.getEmail() != null?
-               //const HomeScreen() : const LanguageScreen(),
+            home: Cache.getLanguage() != null  && Cache.getEmail() != null?
+               const HomeScreen() : const LanguageScreen(),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: Locale(BlocProvider.of<AppLanguageCubit>(context).lang));
