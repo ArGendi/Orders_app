@@ -42,13 +42,16 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             child: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  "Orga",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey[50],
-                    fontSize: 24,
+                padding: const EdgeInsets.all(5.0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Orga",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueGrey[50],
+                      fontSize: 24,
+                    ),
                   ),
                 ),
               ),
@@ -83,15 +86,31 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       CustomTextFormField(
                         text: AppLocalizations.of(context)!.phone,
+                        //hintText: AppLocalizations.of(context)!.phoneWithCodeExample,
                         keyboardType: TextInputType.phone,
                         prefix: const Icon(Icons.phone),
                         onSaved: (value) {
-                          BlocProvider.of<AuthCubit>(context).email = value;
+                          if(value!.substring(0,2) == "01"){
+                            BlocProvider.of<AuthCubit>(context).email = "+2$value";
+                          }
+                          else if(value[0] != "+"){
+                            BlocProvider.of<AuthCubit>(context).email = "+$value";
+                          }
+                          else {
+                            BlocProvider.of<AuthCubit>(context).email = value;
+                          }
                         },
                         onValidate: (value) {
                           if (value!.isEmpty) {
                             return AppLocalizations.of(context)!.enterYourPhoneNumber;
-                          } else {
+                          }
+                          else if((value.substring(0, 3) == "+20" && value.length != 13) || ((value.substring(0, 2) == "20") && value.length != 12)  ){
+                            return AppLocalizations.of(context)!.inavlidPhone;
+                          }
+                          else if(value.substring(0,2) == "01" && value.length != 11){
+                            return AppLocalizations.of(context)!.inavlidPhone;
+                          }
+                          else {
                             return null;
                           }
                         },

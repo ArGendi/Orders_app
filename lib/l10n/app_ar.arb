@@ -61,6 +61,8 @@
     "sureDeletedataQuestion": "متأكدة من مسح بيانات",
     "makeSureThereIsNoOrders": "أتاكد ان مفيش اوردرات حاليا للشخص دا الاول",
     "gotIt": "تمام",
-    "internetConnectionProblem": "النت ضعيف"
+    "internetConnectionProblem": "النت ضعيف",
+    "inavlidPhone": "دا اوردر شاورما مش رقم موبايل كدا",
+    "phoneWithCodeExample": "+20xxxxxxxxxx"
 
 }

@@ -12,7 +12,8 @@ class CustomTextFormField extends StatefulWidget {
   final Widget? prefix;
   final String? suffixText;
   final bool obscureText;
-  const CustomTextFormField({super.key, required this.text, required this.onSaved, this.maxLines = 1, this.onValidate, this.keyboardType = TextInputType.text, this.initial, this.prefix, this.suffixText, this.obscureText = false});
+  final String? hintText;
+  const CustomTextFormField({super.key, required this.text, required this.onSaved, this.maxLines = 1, this.onValidate, this.keyboardType = TextInputType.text, this.initial, this.prefix, this.suffixText, this.obscureText = false, this.hintText});
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -49,6 +50,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         filled: true,
         fillColor: Colors.white,
         contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+        hintText: widget.hintText,
         labelText: widget.text,
         labelStyle: const TextStyle(
           color: Colors.black54,

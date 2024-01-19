@@ -61,5 +61,7 @@
     "sureDeletedataQuestion": "Sure you want to delete ",
     "makeSureThereIsNoOrders": "Make sure there is no orders for this client",
     "gotIt": "Got it",
-    "internetConnectionProblem": "Connection lost"
+    "internetConnectionProblem": "Connection lost",
+    "inavlidPhone": "This is order code not a phone number, enter right phone",
+    "phoneWithCodeExample": "+20xxxxxxxxxx"
 }
